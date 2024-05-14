@@ -304,9 +304,9 @@ abstract class PlayerComp implements UnitController, Entityc, Syncc, Timerc, Dra
             if(admin){
                 float s = 3f;
                 Draw.color(color.r * 0.5f, color.g * 0.5f, color.b * 0.5f, 1f);
-                Draw.rect(Icon.adminSmall.getRegion(), unit.x + layout.width / 2f + 2 + 1, unit.y + nameHeight - 1.5f, s, s);
+                //Draw.rect(Icon.adminSmall.getRegion(), unit.x + layout.width / 2f + 2 + 1, unit.y + nameHeight - 1.5f, s, s);
                 Draw.color(color);
-                Draw.rect(Icon.adminSmall.getRegion(), unit.x + layout.width / 2f + 2 + 1, unit.y + nameHeight - 1f, s, s);
+                //Draw.rect(Icon.adminSmall.getRegion(), unit.x + layout.width / 2f + 2 + 1, unit.y + nameHeight - 1f, s, s);
             }
         }
 

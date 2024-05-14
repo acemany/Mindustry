@@ -84,7 +84,7 @@ public class Fx{
         alpha(e.fout(Interp.pow4Out));
 
         float size = 10f + e.fout(Interp.pow10In) * 25f;
-        Draw.rect(Icon.cancel.getRegion(), e.x, e.y, size, size);
+        //Draw.rect(Icon.cancel.getRegion(), e.x, e.y, size, size);
     }),
 
     unitControl = new Effect(30f, e -> {

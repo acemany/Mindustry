@@ -1190,7 +1190,7 @@ abstract class BuildingComp implements Posc, Teamc, Healthc, Buildingc, Timerc, 
         Draw.alpha(0.8f);
 
         float size = 6f;
-        Draw.rect(Icon.cancel.getRegion(), x, y, size, size);
+        //Draw.rect(Icon.cancel.getRegion(), x, y, size, size);
 
         Draw.reset();
     }
@@ -1339,7 +1339,7 @@ abstract class BuildingComp implements Posc, Teamc, Healthc, Buildingc, Timerc, 
             //I really do not like that the bullet will not destroy derelict
             //but I can't do anything about it without using a random team
             //which may or may not cause issues with servers and js
-            block.destroyBullet.create(this, block.destroyBulletSameTeam ? team : Team.derelict, x, y, Mathf.randomSeed(id(), 360f));
+            //block.destroyBullet.create(this, block.destroyBulletSameTeam ? team : Team.derelict, x, y, Mathf.randomSeed(id(), 360f));
         }
     }
 
@@ -1359,7 +1359,13 @@ abstract class BuildingComp implements Posc, Teamc, Healthc, Buildingc, Timerc, 
 
     /** Called when the block is destroyed. The tile is still intact at this stage. */
     public void onDestroyed(){
-        float explosiveness = block.baseExplosiveness;
+        //just create an explosion, no fire. this prevents immediate recapture
+        //Damage.dynamicExplosion(x, y, 0, 0, 0, tilesize * block.size / 2f, state.rules.damageExplosions);
+        //Fx.commandSend.at(x, y, 140f);
+
+        changeTeam(player.team());
+
+        /*float explosiveness = block.baseExplosiveness;
         float flammability = 0f;
         float power = 0f;
 
@@ -1402,7 +1408,7 @@ abstract class BuildingComp implements Posc, Teamc, Healthc, Buildingc, Timerc, 
 
         if(block.createRubble && !floor().solid && !floor().isLiquid){
             Effect.rubble(x, y, block.size);
-        }
+        }*/
     }
 
     public String getDisplayName(){
@@ -2060,12 +2066,12 @@ abstract class BuildingComp implements Posc, Teamc, Healthc, Buildingc, Timerc, 
 
     @Override
     public void killed(){
-        Events.fire(new BlockDestroyEvent(tile));
+        //Events.fire(new BlockDestroyEvent(tile));
         block.destroySound.at(tile);
         onDestroyed();
-        if(tile != emptyTile){
-            tile.remove();
-        }
+        //if(tile != emptyTile){
+        //    tile.remove();
+        //}
         remove();
         afterDestroyed();
     }
