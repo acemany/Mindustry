@@ -59,6 +59,7 @@ abstract class BuildingComp implements Posc, Teamc, Healthc, Buildingc, Timerc, 
     
     @Import float x, y, health, maxHealth;
     @Import Team team;
+    Team lastDamageTeam;
 
     transient Tile tile;
     transient Block block;
@@ -1363,7 +1364,8 @@ abstract class BuildingComp implements Posc, Teamc, Healthc, Buildingc, Timerc, 
         //Damage.dynamicExplosion(x, y, 0, 0, 0, tilesize * block.size / 2f, state.rules.damageExplosions);
         //Fx.commandSend.at(x, y, 140f);
 
-        changeTeam(player.team());
+        changeTeam(lastDamageTeam);
+        health = maxHealth / 16f;
 
         /*float explosiveness = block.baseExplosiveness;
         float flammability = 0f;
@@ -1647,7 +1649,7 @@ abstract class BuildingComp implements Posc, Teamc, Healthc, Buildingc, Timerc, 
 
     /** Used to handle damage from splash damage for certain types of blocks. */
     public void damage(@Nullable Team source, float damage){
-        damage(damage);
+        damage(damage, source);
     }
 
     /** Handles splash damage with a bullet source. */
@@ -1882,8 +1884,15 @@ abstract class BuildingComp implements Posc, Teamc, Healthc, Buildingc, Timerc, 
     @Replace
     @Override
     public void damage(float damage){
+        damage(damage, team.crux);
+    }
+
+    @Replace
+    @Override
+    public void damage(float damage, Team team){
         if(dead()) return;
 
+        lastDamageTeam = team;
         float dm = state.rules.blockHealth(team);
         lastDamageTime = Time.time;
 
