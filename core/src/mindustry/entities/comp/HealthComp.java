@@ -2,6 +2,7 @@ package mindustry.entities.comp;
 
 import arc.util.*;
 import mindustry.annotations.Annotations.*;
+import mindustry.game.Team;
 import mindustry.gen.*;
 
 @Component
@@ -12,6 +13,8 @@ abstract class HealthComp implements Entityc, Posc{
     transient float hitTime;
     transient float maxHealth = 1f;
     transient boolean dead;
+
+    Team lastDamageTeam = Team.derelict;
 
     boolean isValid(){
         return !dead && isAdded();
@@ -50,16 +53,31 @@ abstract class HealthComp implements Entityc, Posc{
 
     /** Damage and pierce armor. */
     void damagePierce(float amount, boolean withEffect){
-        damage(amount, withEffect);
+        damagePierce(amount, withEffect, Team.derelict);
+    }
+
+    /** Damage and pierce armor. */
+    void damagePierce(float amount, boolean withEffect, Team team){
+        damage(amount, withEffect, team);
     }
 
     /** Damage and pierce armor. */
     void damagePierce(float amount){
-        damagePierce(amount, true);
+        damagePierce(amount, Team.derelict);
+    }
+
+    /** Damage and pierce armor. */
+    void damagePierce(float amount, Team team){
+        damagePierce(amount, true, team);
     }
 
     void damage(float amount){
+        damage(amount, Team.derelict);
+    }
+
+    void damage(float amount, Team team){
         health -= amount;
+        lastDamageTeam = team;
         hitTime = 1f;
         if(health <= 0 && !dead){
             kill();
@@ -67,9 +85,13 @@ abstract class HealthComp implements Entityc, Posc{
     }
 
     void damage(float amount, boolean withEffect){
+        damage(amount, withEffect, Team.derelict);
+    }
+
+    void damage(float amount, boolean withEffect, Team team){
         float pre = hitTime;
 
-        damage(amount);
+        damage(amount, team);
 
         if(!withEffect){
             hitTime = pre;
@@ -77,11 +99,19 @@ abstract class HealthComp implements Entityc, Posc{
     }
 
     void damageContinuous(float amount){
-        damage(amount * Time.delta, hitTime <= -10 + hitDuration);
+        damageContinuous(amount * Time.delta, Team.derelict);
+    }
+
+    void damageContinuous(float amount, Team team){
+        damage(amount * Time.delta, hitTime <= -10 + hitDuration, team);
     }
 
     void damageContinuousPierce(float amount){
-        damagePierce(amount * Time.delta, hitTime <= -20 + hitDuration);
+        damageContinuousPierce(amount, Team.derelict);
+    }
+
+    void damageContinuousPierce(float amount, Team team){
+        damagePierce(amount * Time.delta, hitTime <= -20 + hitDuration, team);
     }
 
     void clampHealth(){

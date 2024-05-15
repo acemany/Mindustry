@@ -401,9 +401,9 @@ public class BulletType extends Content implements Cloneable{
                 health += shield;
             }
             if(pierceArmor){
-                h.damagePierce(damage);
+                h.damagePierce(damage, b.team);
             }else{
-                h.damage(damage);
+                h.damage(damage, b.team);
             }
         }
 

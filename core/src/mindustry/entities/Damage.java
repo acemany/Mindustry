@@ -495,7 +495,7 @@ public class Damage{
             boolean dead = unit.dead;
 
             float amount = calculateDamage(scaled ? Math.max(0, unit.dst(x, y) - unit.type.hitSize/2) : unit.dst(x, y), radius, damage);
-            unit.damage(amount);
+            unit.damage(amount, source.team);
 
             if(source != null){
                 Events.fire(bulletDamageEvent.set(unit, source));

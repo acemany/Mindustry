@@ -23,7 +23,7 @@ abstract class LegsComp implements Posc, Rotc, Hitboxc, Flyingc, Unitc{
 
     @Import float x, y, rotation, speedMultiplier;
     @Import UnitType type;
-    @Import Team team;
+    @Import Team team, lastDamageTeam;
     @Import boolean disarmed;
 
     transient Leg[] legs = {};
@@ -65,8 +65,10 @@ abstract class LegsComp implements Posc, Rotc, Hitboxc, Flyingc, Unitc{
     @Override
     public void destroy(){
         if(!isAdded() || Vars.headless) return;
+        
+        team = lastDamageTeam;
 
-        float legExplodeRad = type.legRegion.height  / 4f / 1.45f;
+        /*float legExplodeRad = type.legRegion.height  / 4f / 1.45f;
 
         //create effects for legs being destroyed
         for(int i = 0; i < legs.length; i++){
@@ -83,7 +85,7 @@ abstract class LegsComp implements Posc, Rotc, Hitboxc, Flyingc, Unitc{
             Fx.legDestroy.at(base.x, base.y, 0f, new LegDestroyData(base.cpy(), l.joint, type.legRegion));
             Fx.legDestroy.at(l.joint.x, l.joint.y, 0f, new LegDestroyData(l.joint.cpy().add(Tmp.v2), l.base, type.legBaseRegion));
 
-        }
+        }*/
     }
 
     public void resetLegs(){

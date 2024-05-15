@@ -58,8 +58,7 @@ abstract class BuildingComp implements Posc, Teamc, Healthc, Buildingc, Timerc, 
     static int sleepingEntities = 0;
     
     @Import float x, y, health, maxHealth;
-    @Import Team team;
-    Team lastDamageTeam;
+    @Import Team team, lastDamageTeam;    
 
     transient Tile tile;
     transient Block block;
@@ -1884,13 +1883,13 @@ abstract class BuildingComp implements Posc, Teamc, Healthc, Buildingc, Timerc, 
     @Replace
     @Override
     public void damage(float damage){
-        damage(damage, team.crux);
+        damage(damage, Team.derelict);
     }
 
     @Replace
     @Override
     public void damage(float damage, Team team){
-        if(dead()) return;
+        if(dead() || team == null) return;
 
         lastDamageTeam = team;
         float dm = state.rules.blockHealth(team);

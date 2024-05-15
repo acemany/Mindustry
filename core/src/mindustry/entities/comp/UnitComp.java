@@ -36,7 +36,7 @@ abstract class UnitComp implements Healthc, Physicsc, Hitboxc, Statusc, Teamc, I
 
     @Import boolean hovering, dead, disarmed;
     @Import float x, y, rotation, elevation, maxHealth, drag, armor, hitSize, health, shield, ammo, dragMultiplier, armorOverride, speedMultiplier;
-    @Import Team team;
+    @Import Team team, lastDamageTeam;
     @Import int id;
     @Import @Nullable Tile mineTile;
     @Import Vec2 vel;
@@ -596,7 +596,7 @@ abstract class UnitComp implements Healthc, Physicsc, Hitboxc, Statusc, Teamc, I
         }
 
         //simulate falling down
-        if(dead || health <= 0){
+        if(false){ //if(dead || health <= 0){
             //less drag when dead
             drag = 0.01f;
 
@@ -675,7 +675,12 @@ abstract class UnitComp implements Healthc, Physicsc, Hitboxc, Statusc, Teamc, I
     public void destroy(){
         if(!isAdded() || !type.killable) return;
 
-        float explosiveness = 2f + item().explosiveness * stack().amount * 1.53f;
+        if (count() < cap()){
+            team = lastDamageTeam != null ? lastDamageTeam : Team.derelict;
+            health = maxHealth / 16f;
+        }
+
+        /*float explosiveness = 2f + item().explosiveness * stack().amount * 1.53f;
         float flammability = item().flammability * stack().amount / 1.9f;
         float power = item().charge * Mathf.pow(stack().amount, 1.11f) * 160f;
 
@@ -728,7 +733,7 @@ abstract class UnitComp implements Healthc, Physicsc, Hitboxc, Statusc, Teamc, I
 
         type.killed(self());
 
-        remove();
+        remove();*/
     }
 
     /** @return name of direct or indirect player controller. */
@@ -766,14 +771,14 @@ abstract class UnitComp implements Healthc, Physicsc, Hitboxc, Statusc, Teamc, I
 
     @Override
     public void killed(){
-        wasPlayer = isLocal();
+        /*wasPlayer = isLocal();
         health = Math.min(health, 0);
         dead = true;
 
         //don't waste time when the unit is already on the ground, just destroy it
         if(!type.flying || !type.createWreck){
             destroy();
-        }
+        }*/
     }
 
     @Override
@@ -782,7 +787,7 @@ abstract class UnitComp implements Healthc, Physicsc, Hitboxc, Statusc, Teamc, I
         if(dead || net.client() || !type.killable) return;
 
         //deaths are synced; this calls killed()
-        Call.unitDeath(id);
+        destroy(); //Call.unitDeath(id);
     }
 
     @Override

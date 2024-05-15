@@ -1706,7 +1706,8 @@ public class UnitType extends UnlockableContent implements Senseable{
             if(scale <= 0.0001f) return;
 
             float rot = unit.rotation - 90;
-            Color color = type.engineColor == null ? unit.team.color : type.engineColor;
+
+            Color color = unit.team == null ? color = Color.white : (type.engineColor == null ? unit.team.color : type.engineColor);
 
             Tmp.v1.set(x, y).rotate(rot);
             float ex = Tmp.v1.x, ey = Tmp.v1.y;
