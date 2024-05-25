@@ -92,7 +92,7 @@ abstract class FireComp implements Timedc, Posc, Syncc, Drawc{
             puddleFlammability = p != null ? p.getFlammability() / 3f : 0;
 
             if(damage){
-                entity.damage(tileDamage);
+                entity.damage(true, tileDamage);
             }
             Damage.damageUnits(null, tile.worldx(), tile.worldy(), tilesize, unitDamage,
             unit -> !unit.isFlying() && !unit.isImmune(StatusEffects.burning),

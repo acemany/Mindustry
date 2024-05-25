@@ -131,7 +131,7 @@ public class StatusEffect extends UnlockableContent{
     /** Runs every tick on the affected unit while time is greater than 0. */
     public void update(Unit unit, float time){
         if(damage > 0){
-            unit.damageContinuousPierce(damage);
+            unit.damageContinuousPierce(true, damage);
         }else if(damage < 0){ //heal unit
             unit.heal(-1f * damage * Time.delta);
         }

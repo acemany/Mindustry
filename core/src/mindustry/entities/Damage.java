@@ -430,7 +430,7 @@ public class Damage{
             if(!hitrect.overlaps(rect)){
                 return;
             }
-            entity.damage(damage);
+            entity.damage(true, damage);
             acceptor.get(entity);
         };
 

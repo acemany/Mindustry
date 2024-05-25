@@ -52,8 +52,9 @@ abstract class HealthComp implements Entityc, Posc{
     }
 
     /** Damage and pierce armor. */
-    void damagePierce(float amount, boolean withEffect){
-        damagePierce(amount, withEffect, Team.derelict);
+    void damagePierce(float amount, boolean withEffect) throws Error{
+        throw new Error("ffffffffffffffffffffffffffffffffffff");
+        //damagePierce(amount, withEffect, Team.derelict);
     }
 
     /** Damage and pierce armor. */
@@ -62,8 +63,9 @@ abstract class HealthComp implements Entityc, Posc{
     }
 
     /** Damage and pierce armor. */
-    void damagePierce(float amount){
-        damagePierce(amount, Team.derelict);
+    void damagePierce(float amount) throws Error{
+        throw new Error("ffffffffffffffffffffffffffffffffffff");
+        //damagePierce(amount, Team.derelict);
     }
 
     /** Damage and pierce armor. */
@@ -71,8 +73,13 @@ abstract class HealthComp implements Entityc, Posc{
         damagePierce(amount, true, team);
     }
 
-    void damage(float amount){
-        damage(amount, Team.derelict);
+    void damage(float amount) throws Error{
+        throw new Error("ffffffffffffffffffffffffffffffffffff");
+        //damage(amount, Team.derelict);
+    }
+
+    void damage(boolean fire, float amount){
+        if(fire) damage(amount, lastDamageTeam);
     }
 
     void damage(float amount, Team team){
@@ -84,8 +91,9 @@ abstract class HealthComp implements Entityc, Posc{
         }
     }
 
-    void damage(float amount, boolean withEffect){
-        damage(amount, withEffect, Team.derelict);
+    void damage(float amount, boolean withEffect) throws Error{
+        throw new Error("ffffffffffffffffffffffffffffffffffff");
+        //damage(amount, withEffect, Team.derelict);
     }
 
     void damage(float amount, boolean withEffect, Team team){
@@ -98,16 +106,21 @@ abstract class HealthComp implements Entityc, Posc{
         }
     }
 
-    void damageContinuous(float amount){
-        damageContinuous(amount * Time.delta, Team.derelict);
+    void damageContinuous(float amount) throws Error{
+        throw new Error("ffffffffffffffffffffffffffffffffffff");
+        //damageContinuous(amount * Time.delta, Team.derelict);
     }
 
     void damageContinuous(float amount, Team team){
         damage(amount * Time.delta, hitTime <= -10 + hitDuration, team);
     }
 
-    void damageContinuousPierce(float amount){
-        damageContinuousPierce(amount, Team.derelict);
+    void damageContinuousPierce(float amount) throws Error{
+        throw new Error("ffffffffffffffffffffffffffffffffffff");
+        //damageContinuousPierce(amount, Team.derelict);
+    }
+    void damageContinuousPierce(boolean fire, float amount){
+        if(fire)damageContinuousPierce(amount, lastDamageTeam);
     }
 
     void damageContinuousPierce(float amount, Team team){

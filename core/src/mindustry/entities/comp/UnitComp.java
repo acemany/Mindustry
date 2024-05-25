@@ -28,6 +28,8 @@ import mindustry.world.*;
 import mindustry.world.blocks.environment.*;
 import mindustry.world.blocks.payloads.*;
 
+import static java.lang.Math.max;
+import static java.lang.Math.min;
 import static mindustry.Vars.*;
 import static mindustry.logic.GlobalVars.*;
 
@@ -193,7 +195,7 @@ abstract class UnitComp implements Healthc, Physicsc, Hitboxc, Statusc, Teamc, I
     @Replace
     public float clipSize(){
         if(isBuilding()){
-            return state.rules.infiniteResources ? Float.MAX_VALUE : Math.max(type.clipSize, type.region.width) + type.buildRange + tilesize*4f;
+            return state.rules.infiniteResources ? Float.MAX_VALUE : max(type.clipSize, type.region.width) + type.buildRange + tilesize*4f;
         }
         if(mining()){
             return type.clipSize + type.mineRange;
@@ -273,7 +275,7 @@ abstract class UnitComp implements Healthc, Physicsc, Hitboxc, Statusc, Teamc, I
                     kill();
                 }
             }
-            case shield -> shield = Math.max((float)value, 0f);
+            case shield -> shield = max((float)value, 0f);
             case x -> {
                 x = World.unconv((float)value);
                 if(!isLocal()) snapInterpolation();
@@ -293,8 +295,8 @@ abstract class UnitComp implements Healthc, Physicsc, Hitboxc, Statusc, Teamc, I
                 }
             }
             case flag -> flag = value;
-            case speed -> statusSpeed(Math.max((float)value, 0f));
-            case armor -> statusArmor(Math.max((float)value, 0f));
+            case speed -> statusSpeed(max((float)value, 0f));
+            case armor -> statusArmor(max((float)value, 0f));
         }
     }
 
@@ -646,6 +648,8 @@ abstract class UnitComp implements Healthc, Physicsc, Hitboxc, Statusc, Teamc, I
             if(type.canBoost){
                 elevation = 1f;
             }else if(!net.client()){
+                System.out.println("I AM AT BLOCKKKS");
+                truKill();
                 kill();
             }
         }
@@ -664,23 +668,12 @@ abstract class UnitComp implements Healthc, Physicsc, Hitboxc, Statusc, Teamc, I
         if(spawnedByCore && !isPlayer() && !dead){
             Call.unitDespawn(self());
         }
+        health = max(0f, health);
     }
 
-    /** @return a preview UI icon for this unit. */
-    public TextureRegion icon(){
-        return type.uiIcon;
-    }
-
-    /** Actually destroys the unit, removing it and creating explosions. **/
-    public void destroy(){
-        if(!isAdded() || !type.killable) return;
-
-        if (count() < cap()){
-            team = lastDamageTeam != null ? lastDamageTeam : Team.derelict;
-            health = maxHealth / 16f;
-        }
-
-        /*float explosiveness = 2f + item().explosiveness * stack().amount * 1.53f;
+    public void truKill(){
+        System.out.println("qwertyuiopqwertyuiop\n\nqwertyuiopqwertyuiop");
+        float explosiveness = 2f + item().explosiveness * stack().amount * 1.53f;
         float flammability = item().flammability * stack().amount / 1.9f;
         float power = item().charge * Mathf.pow(stack().amount, 1.11f) * 160f;
 
@@ -733,7 +726,25 @@ abstract class UnitComp implements Healthc, Physicsc, Hitboxc, Statusc, Teamc, I
 
         type.killed(self());
 
-        remove();*/
+        remove();
+    }
+
+    /** @return a preview UI icon for this unit. */
+    public TextureRegion icon(){
+        return type.uiIcon;
+    }
+
+    /** Actually destroys the unit, removing it and creating explosions. **/
+    public void destroy(){
+        if(!isAdded() || !type.killable) return;
+
+        if (count() < Units.getCap(lastDamageTeam)){
+            team = lastDamageTeam;
+            health = min(maxHealth / 16f, health);
+        }else{
+            System.out.println("SO MANY UNITS((" + lastDamageTeam);
+            truKill();
+        }
     }
 
     /** @return name of direct or indirect player controller. */
@@ -787,6 +798,7 @@ abstract class UnitComp implements Healthc, Physicsc, Hitboxc, Statusc, Teamc, I
         if(dead || net.client() || !type.killable) return;
 
         //deaths are synced; this calls killed()
+        health = max(0f, health);
         destroy(); //Call.unitDeath(id);
     }
 
