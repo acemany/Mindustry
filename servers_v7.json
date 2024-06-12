@@ -1,5 +1,9 @@
 [
   {
+    "name": "Redundancy Dept",
+    "address": ["min7.include-once.org:8000", "min7.include-once.org:8001"]
+  },
+  {
     "name": "TSR Network",
     "address": ["de-prem-01.hosts.optikservers.com:35526", "de-prem-01.hosts.optikservers.com:35915", "de-prem-01.hosts.optikservers.com:35250", "de-prem-01.hosts.optikservers.com:27526", "de-prem-01.hosts.optikservers.com:35376", "de-prem-01.hosts.optikservers.com:35895"]
   },
@@ -262,7 +266,7 @@
   },
   {
     "name": "XuwenHost",
-    "address": ["mdt.xuwenblock.cn:6568","mdt.xuwenblock.cn:6567","106.14.14.210"]
+    "address": ["mdt.xuwenblock.cn:6567","rack1.rainplay.cn:59196"]
   },
   {
     "name": "Atomic",
@@ -298,6 +302,18 @@
   },
   {
     "name": "2D2R",
-    "address": ["51.89.173.50:1284", "45.140.142.231:1045", "51.89.173.50:1432", "45.140.142.231:1052", "45.140.142.231:1040"]
+    "address": ["45.137.205.185:1045", "51.89.173.50:1432", "45.137.205.185:1052", "45.137.205.185:1040"]
+  },
+  {
+    "name": "TRFACT",
+    "address": ["213.142.156.83:25565"]
+  },
+  {
+    "name": "ArmyOFUkraine",
+    "address": ["194.247.42.131:27715"]
+  },
+  {
+    "name": "Natrition",
+    "address": ["94.103.90.138"]
   }
 ]
